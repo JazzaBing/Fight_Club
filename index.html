@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Members Button Example</title>
+  <title>Members Navigation Example</title>
   <style>
     body {
       margin: 0;
@@ -11,53 +11,136 @@
       background: white;
       transition: background 0.3s;
     }
-    #membersPage {
+    .page {
       display: none;
+      width: 100vw;
       height: 100vh;
-      background: black;
-      color: white;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      z-index: 10;
+      flex-direction: column;
+      background: white;
     }
-    .centered {
+    .active {
       display: flex;
+    }
+    /* Main Page Styling */
+    #mainPage {
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      flex-direction: column;
+      background: white;
     }
+    /* Members Page Styling */
+    #membersPage {
+      background: black;
+      color: white;
+      align-items: flex-start;
+    }
+    #membersHeader {
+      width: 100%;
+      text-align: left;
+      font-size: 2em;
+      font-weight: bold;
+      margin: 1.2em 0 0.5em 0;
+      padding-left: 1.2em;
+      letter-spacing: 1px;
+    }
+    .top-left-btn {
+      position: absolute;
+      top: 1em;
+      left: 1em;
+      z-index: 2;
+    }
+    .button-group {
+      display: flex;
+      flex-direction: row;
+      gap: 1em;
+      margin-top: 4em;
+      margin-left: 1.2em;
+    }
+    /* Hierarchy Page Styling */
+    #hierarchyPage {
+      background: repeating-linear-gradient(
+        135deg,
+        #111 0 30px,
+        gold 30px 60px
+      );
+      color: #fff;
+      align-items: flex-start;
+    }
+    /* List Page Styling */
+    #listPage {
+      background: #1e90ff;
+      color: #fff;
+      align-items: flex-start;
+    }
+    /* General Button Styling */
     button {
-      padding: 1em 2em;
-      font-size: 1.2em;
-      margin: 1em;
+      padding: 0.7em 1.5em;
+      font-size: 1.1em;
+      margin: 0.5em 0;
+      border: none;
+      border-radius: 4px;
       cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+    }
+    #membersPage .button-group button,
+    #hierarchyPage .top-left-btn,
+    #listPage .top-left-btn {
+      background: #fff;
+      color: #111;
+    }
+    #membersPage .button-group button:hover,
+    #hierarchyPage .top-left-btn:hover,
+    #listPage .top-left-btn:hover {
+      background: #ffd700;
+      color: #111;
+    }
+    #mainPage button {
+      background: #111;
+      color: #fff;
+    }
+    #mainPage button:hover {
+      background: #444;
     }
   </style>
 </head>
 <body>
-  <div id="mainPage" class="centered">
-    <button onclick="showMembersPage()">Members</button>
+  <!-- Main Page -->
+  <div id="mainPage" class="page active" style="justify-content: center; align-items: center;">
+    <button onclick="showPage('membersPage')">Members</button>
   </div>
 
-  <div id="membersPage" class="centered">
-    <h1>Members Page</h1>
-    <button onclick="showMainPage()">Back</button>
+  <!-- Members Page -->
+  <div id="membersPage" class="page">
+    <button class="top-left-btn" onclick="showPage('mainPage')">Back</button>
+    <div id="membersHeader">Members</div>
+    <div class="button-group">
+      <button onclick="showPage('hierarchyPage')">Hierarchy</button>
+      <button onclick="showPage('listPage')">List</button>
+    </div>
+  </div>
+
+  <!-- Hierarchy Page -->
+  <div id="hierarchyPage" class="page">
+    <button class="top-left-btn" onclick="showPage('membersPage')">Back</button>
+    <!-- You can add more hierarchy content here -->
+  </div>
+
+  <!-- List Page -->
+  <div id="listPage" class="page">
+    <button class="top-left-btn" onclick="showPage('membersPage')">Back</button>
+    <!-- You can add more list content here -->
   </div>
 
   <script>
-    function showMembersPage() {
-      document.getElementById('mainPage').style.display = 'none';
-      document.getElementById('membersPage').style.display = 'flex';
-    }
-    function showMainPage() {
-      document.getElementById('membersPage').style.display = 'none';
-      document.getElementById('mainPage').style.display = 'flex';
+    function showPage(pageId) {
+      const pages = ['mainPage', 'membersPage', 'hierarchyPage', 'listPage'];
+      pages.forEach(id => {
+        document.getElementById(id).classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
     }
   </script>
 </body>
